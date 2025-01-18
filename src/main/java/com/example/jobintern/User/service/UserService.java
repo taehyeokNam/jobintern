@@ -1,5 +1,7 @@
 package com.example.jobintern.User.service;
 
+import com.example.jobintern.User.dto.UserSignInRequest;
+import com.example.jobintern.User.dto.UserSignInResponse;
 import com.example.jobintern.User.dto.UserSignUpRequest;
 import com.example.jobintern.User.dto.UserSignUpResponse;
 import com.example.jobintern.User.entity.User;
@@ -37,5 +39,18 @@ public class UserService {
         userRepository.save(user);
 
         return new UserSignUpResponse(user);
+    }
+
+    public UserSignInResponse signin(UserSignInRequest userSignInRequest) {
+
+        User user = userRepository.findByUsernameOrThrow(userSignInRequest.getUsername());
+
+        if (!passwordEncoder.matches(userSignInRequest.getPassword(), user.getPassword())) {
+            throw new jobinternException(ErrorCode.USER_SIGNIN_ERROR);
+        }
+
+        String token = jwtUtil.createToken(user.getId(), user.getUsername(), user.getRole());
+
+        return new UserSignInResponse(token);
     }
 }

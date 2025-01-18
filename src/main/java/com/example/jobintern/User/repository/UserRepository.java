@@ -12,6 +12,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
     default User findByUsernameOrThrow(String username) {
-        return findByUsername(username).orElseThrow(() -> new jobinternException(ErrorCode.USER_NOT_FOUND));
+        return findByUsername(username).orElseThrow(() -> new jobinternException(ErrorCode.USER_SIGNIN_ERROR));
     }
 }

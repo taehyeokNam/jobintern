@@ -1,5 +1,6 @@
 package com.example.jobintern.User.controller;
 
+import com.example.jobintern.User.dto.UserSignInRequest;
 import com.example.jobintern.User.dto.UserSignUpRequest;
 import com.example.jobintern.User.service.UserService;
 import com.example.jobintern.common.ApiResponse;
@@ -18,5 +19,10 @@ public class UserController {
     @PostMapping("/users/signup")
     public ResponseEntity<ApiResponse<?>> singup(@RequestBody UserSignUpRequest userSignUpRequest) {
         return ResponseEntity.ok(ApiResponse.success(userService.singup(userSignUpRequest)));
+    }
+
+    @PostMapping("/users/signin")
+    public ResponseEntity<ApiResponse<?>> signin(@RequestBody UserSignInRequest userSignInRequest) {
+        return ResponseEntity.ok(ApiResponse.success(userService.signin(userSignInRequest)));
     }
 }

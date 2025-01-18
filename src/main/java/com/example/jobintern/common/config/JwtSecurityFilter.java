@@ -37,7 +37,6 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
         String authorizationHeader = httpRequest.getHeader("Authorization");
         String url = httpRequest.getRequestURI();
 
-
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ") && !url.startsWith("/users/signup") && !url.startsWith("/users/signin")) {
             String jwt = jwtUtil.substringToken(authorizationHeader);
             try {
