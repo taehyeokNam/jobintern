@@ -41,7 +41,7 @@ public class UserService {
         return new UserSignUpResponse(user);
     }
 
-    public UserSignInResponse signin(UserSignInRequest userSignInRequest) {
+    public UserSignInResponse sign(UserSignInRequest userSignInRequest) {
 
         User user = userRepository.findByUsernameOrThrow(userSignInRequest.getUsername());
 

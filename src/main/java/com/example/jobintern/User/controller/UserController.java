@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping("/users/signin")
-    public ResponseEntity<ApiResponse<?>> signin(@RequestBody UserSignInRequest userSignInRequest) {
-        return ResponseEntity.ok(ApiResponse.success(userService.signin(userSignInRequest)));
+    public ResponseEntity<ApiResponse<?>> sign(@RequestBody UserSignInRequest userSignInRequest) {
+        return ResponseEntity.ok(ApiResponse.success(userService.sign(userSignInRequest)));
     }
 }
