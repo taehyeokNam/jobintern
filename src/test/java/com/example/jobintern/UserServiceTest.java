@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -43,14 +44,13 @@ public class UserServiceTest {
 
     @Test
     void signup_success() {
-        // Given
+
         UserSignUpRequest request = new UserSignUpRequest("testname", "password", "nickname");
+
         when(userRepository.findByUsername(request.getUsername())).thenReturn(Optional.empty());
 
-        // When
         UserSignUpResponse response = userService.singup(request);
 
-        // Then
         assertEquals("testname", response.getUsername());
         assertEquals("nickname", response.getNickname());
         assertEquals(UserRole.ROLE_USER, UserRole.of(response.getAuthorities().get(0).getAuthorityName()));
@@ -65,9 +65,9 @@ public class UserServiceTest {
             UserSignUpRequest request = new UserSignUpRequest("testname", "password", "nickname");
             User mockUser = new User(request, "encodedPassword");
 
-            when(userRepository.findByUsernameOrThrow("username")).thenReturn(mockUser);
+            when(userRepository.findByUsernameOrThrow("testname")).thenReturn(mockUser);
 
-            when(passwordEncoder.matches("password!", "encodedPassword")).thenReturn(true);
+            when(passwordEncoder.matches("password", "encodedPassword")).thenReturn(true);
 
             when(jwtUtil.createToken(mockUser.getId(), mockUser.getUsername(), mockUser.getRole()))
                     .thenReturn("jwtToken");
@@ -75,13 +75,11 @@ public class UserServiceTest {
 
         @Test
         void sign_success() {
-            // Given
-            UserSignInRequest request = new UserSignInRequest("testname", "password!");
 
-            // When
-            UserSignInResponse response = userService.sign(request);
+            UserSignInRequest userSignInRequest = new UserSignInRequest("testname", "password");
 
-            // Then
+            UserSignInResponse response = userService.sign(userSignInRequest);
+
             assertEquals("jwtToken", response.getToken());
         }
     }
