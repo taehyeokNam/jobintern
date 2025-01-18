@@ -1,5 +1,6 @@
 package com.example.jobintern.User.entity;
 
+import com.example.jobintern.User.dto.UserSignUpRequest;
 import com.example.jobintern.User.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -27,10 +28,10 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public User(String username, String password, String nickname, UserRole role) {
-        this.username = username;
+    public User(UserSignUpRequest userSignUpRequest, String password) {
+        this.username = userSignUpRequest.getUsername();
         this.password = password;
-        this.nickname = nickname;
+        this.nickname = userSignUpRequest.getNickname();
         this.role = UserRole.ROLE_USER;
     }
 }
