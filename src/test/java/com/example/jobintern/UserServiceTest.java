@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Optional;
 
@@ -49,7 +48,7 @@ public class UserServiceTest {
 
         when(userRepository.findByUsername(request.getUsername())).thenReturn(Optional.empty());
 
-        UserSignUpResponse response = userService.singup(request);
+        UserSignUpResponse response = userService.signup(request);
 
         assertEquals("testname", response.getUsername());
         assertEquals("nickname", response.getNickname());

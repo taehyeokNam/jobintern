@@ -35,18 +35,17 @@ public class JwtSecurityFilter extends OncePerRequestFilter {
     ) throws ServletException, IOException {
 
         String authorizationHeader = httpRequest.getHeader("Authorization");
-        String url = httpRequest.getRequestURI();
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ") && !url.startsWith("/users/signup") && !url.startsWith("/users/signin")) {
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
             String jwt = jwtUtil.substringToken(authorizationHeader);
             try {
                 Claims claims = jwtUtil.extractClaims(jwt);
                 Long userId = Long.parseLong(claims.getSubject());
-                String email = claims.get("username", String.class);
+                String username = claims.get("username", String.class);
                 UserRole userRole = UserRole.of(claims.get("userRole", String.class));
 
                 if (SecurityContextHolder.getContext().getAuthentication() == null) {
-                    AuthUser authUser = new AuthUser(userId, email, userRole);
+                    AuthUser authUser = new AuthUser(userId, username, userRole);
 
                     JwtAuthenticationToken authenticationToken = new JwtAuthenticationToken(authUser);
                     authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));

@@ -25,7 +25,7 @@ public class UserService {
     private final UserRepository userRepository;
 
     @Transactional
-    public UserSignUpResponse singup(UserSignUpRequest userSignUpRequest) {
+    public UserSignUpResponse signup(UserSignUpRequest userSignUpRequest) {
 
         Optional<User> existingUser = userRepository.findByUsername(userSignUpRequest.getUsername());
 
@@ -41,6 +41,7 @@ public class UserService {
         return new UserSignUpResponse(user);
     }
 
+    @Transactional
     public UserSignInResponse sign(UserSignInRequest userSignInRequest) {
 
         User user = userRepository.findByUsernameOrThrow(userSignInRequest.getUsername());
